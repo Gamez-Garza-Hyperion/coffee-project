@@ -70,15 +70,20 @@ function addNewCoffee(e) {
     if (newCoffeeName.length > 0 && isNaN(newCoffeeName)) {
         newCoffee.name = newCoffeeName;
     } else {
-        console.log("Invalid coffee name entry");
+        console.log("Invalid coffee name entry.");
+
+       //set default for undefined coffee name entry
+        newCoffee.name  = "newCoffeeName";
     }
+
 
     // Declare newRoast variable to store the new user selected roast type
     const newRoast = addRoast.value;
     newCoffee.roast = newRoast;
 
-    console.log(newCoffee);
-    // localStorage.setItem('');
+    // console.log(newCoffee);
+    localStorage.setItem(`${newCoffee.id}`, JSON.stringify(newCoffee));
+    // console.log(localStorage.getItem(`${newCoffee.id}`));
     coffees.push(newCoffee);
     tbody.innerHTML = renderCoffees(coffees);
 }
@@ -111,8 +116,23 @@ const addRoast = document.getElementById("add-roast");
 const addCoffee = document.getElementById("add-coffee");
 const addButton = document.querySelector("#submit1");
 
-// load localStorage coffee names into coffees array
 
+
+// load localStorage coffee names into coffees array
+function loadStorage() {
+
+    const keys = Object.keys(localStorage);
+    let i = keys.length;
+
+    while ( i-- ) {
+        coffees.push( JSON.parse( localStorage.getItem (keys[i]) ) );
+    }
+}
+
+
+
+console.log( loadStorage() );
+// Render initial coffees array
 tbody.innerHTML = renderCoffees(coffees);
 
 // These are the actions attached to the DOM elements:
