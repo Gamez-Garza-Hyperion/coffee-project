@@ -11,25 +11,25 @@ function renderCoffee(coffee) {
     return html;
 }
 
-// Function rendering the coffees to the index.html and sorts by the coffee id
+// Function rendering the coffees array to the index.html
 function renderCoffees(coffees) {
     let html = '';
-    // coffees.sort implements the compareTo function
+    // coffees.sort implements the compare function to sort by property id
     coffees.sort(function (a,b) {
         return a.id - b.id;
-    })
+    });
     for(let i = 0; i < coffees.length; i++) {
         html += renderCoffee(coffees[i]);
     }
     return html;
 }
 
-// Event Listener/handler function to update and filter the coffee list
+// Event Listener/handler function to update and filter the coffee array
 function updateCoffees(e) {
     e.preventDefault(); // don't submit the form, we just want to update the data
     const selectedRoast = roastSelection.value;
 
-    // Set filtered coffees when selected roast is equal to 'all'
+    // Set filteredCoffees to coffees array when selected roast is set to 'all'
     let filteredCoffees = coffees;
 
     // Set filteredCoffees variable to the coffees array which is filtered by roast type
@@ -40,9 +40,9 @@ function updateCoffees(e) {
     }
 
     // Filter coffees array by coffee name
+    // Set filteredCoffees variable to the coffees array which is filtered by coffee name
     if (e.target.value !== selectedRoast) {
         const coffeeSearchName = e.target.value.toLowerCase();
-        // console.log(coffeeSearchName);
         filteredCoffees = filteredCoffees.filter(function (coffee) {
             // Set the coffeeName to the coffee object property name and make it case insensitive
             const coffeeName = coffee.name.toLowerCase();
@@ -73,17 +73,16 @@ function addNewCoffee(e) {
         console.log("Invalid coffee name entry.");
 
        //set default for undefined coffee name entry
-        newCoffee.name  = "newCoffeeName";
+        newCoffee.name  = "newCoffee";
     }
-
 
     // Declare newRoast variable to store the new user selected roast type
     const newRoast = addRoast.value;
     newCoffee.roast = newRoast;
 
-    // console.log(newCoffee);
+    // Add newly created coffee object to localStorage
     localStorage.setItem(`${newCoffee.id}`, JSON.stringify(newCoffee));
-    // console.log(localStorage.getItem(`${newCoffee.id}`));
+    // Add newly created coffee object to coffees array
     coffees.push(newCoffee);
     tbody.innerHTML = renderCoffees(coffees);
 }
@@ -106,8 +105,7 @@ let coffees = [
     {id: 14, name: 'French', roast: 'dark'},
 ];
 
-
-//To declare variables to access the DOM elements in index.html
+// To declare variables to access the DOM elements in index.html
 const coffeeFilter = document.getElementById("coffee-filter");
 const tbody = document.querySelector("#coffees");
 const filterButton = document.querySelector("#submit0");
@@ -116,34 +114,34 @@ const addRoast = document.getElementById("add-roast");
 const addCoffee = document.getElementById("add-coffee");
 const addButton = document.querySelector("#submit1");
 
-
-
 // load localStorage coffee names into coffees array
 function loadStorage() {
-
     const keys = Object.keys(localStorage);
     let i = keys.length;
+    console.log("i: ", i);
 
     while ( i-- ) {
+        console.log("localStorage: ", localStorage.getItem(keys[i]));
         coffees.push( JSON.parse( localStorage.getItem(keys[i]) ) );
     }
 }
 
-console.log( loadStorage() );
+// Initially load items from localStorage
+loadStorage();
 
 // Render initial coffees array
 tbody.innerHTML = renderCoffees(coffees);
 
 // These are the actions attached to the DOM elements:
 
-// Action: filters coffee array by using the #submit button in index.html
+// Event: filters coffee array by using the #submit button in index.html
 filterButton.addEventListener('click', updateCoffees);
 
-// Action: filters coffee array by using the #roast-selection options in updatedCoffees function
+// Event: filters coffee array by using the #roast-selection options in updatedCoffees function
 roastSelection.addEventListener('change',updateCoffees );
 
-// Action: filters coffees array using the user input for coffee name in updatedCoffees function
+// Event: filters coffees array using the user input for coffee name in updatedCoffees function
 coffeeFilter.addEventListener('input', updateCoffees);
 
-// Submit button handler to add the new coffee object to the coffees array
+// Event: submit button handler to add the new coffee object to the coffees array
 addButton.addEventListener('click', addNewCoffee);
