@@ -2,10 +2,10 @@
 
 // Function to render each individual coffee
 function renderCoffee(coffee) {
-    let html = '<div class="coffee">';
-    html += '<div>' + coffee.id + '</div>';
-    html += '<div>' + coffee.name + '</div>';
-    html += '<div>' + coffee.roast + '</div>';
+    let html = '<div class="coffee w-50 mb-3">';
+    html += '<div class="d-none">' + coffee.id + '</div>';
+    html += '<div class="d-flex align-items-baseline"><div class="coffeeName h2 mr-2">' + coffee.name + '</div>';
+    html += '<div class="text-muted">' + coffee.roast + '</div></div>';
     html += '</div>';
 
     return html;
@@ -125,13 +125,12 @@ function loadStorage() {
     let i = keys.length;
 
     while ( i-- ) {
-        coffees.push( JSON.parse( localStorage.getItem (keys[i]) ) );
+        coffees.push( JSON.parse( localStorage.getItem(keys[i]) ) );
     }
 }
 
-
-
 console.log( loadStorage() );
+
 // Render initial coffees array
 tbody.innerHTML = renderCoffees(coffees);
 
