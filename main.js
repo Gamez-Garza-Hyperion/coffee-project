@@ -2,7 +2,7 @@
 
 // Function to render each individual coffee
 function renderCoffee(coffee) {
-    let html = '<div class="coffee w-50 mb-3">';
+    let html = '<div class="coffee w-50 mb-3  w-sm-25">';
     html += '<div class="d-none">' + coffee.id + '</div>';
     html += '<div class="d-flex align-items-baseline"><div class="coffeeName h2 mr-2">' + coffee.name + '</div>';
     html += '<div class="text-muted">' + coffee.roast + '</div></div>';
