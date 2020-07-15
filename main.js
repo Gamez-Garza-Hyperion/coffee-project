@@ -108,7 +108,7 @@ let coffees = [
 // To declare variables to access the DOM elements in index.html
 const coffeeFilter = document.getElementById("coffee-filter");
 const tbody = document.querySelector("#coffees");
-const filterButton = document.querySelector("#submit0");
+// const filterButton = document.querySelector("#submit0");
 const roastSelection = document.querySelector("#roast-selection");
 const addRoast = document.getElementById("add-roast");
 const addCoffee = document.getElementById("add-coffee");
@@ -118,7 +118,7 @@ const addButton = document.querySelector("#submit1");
 function loadStorage() {
     const keys = Object.keys(localStorage);
     let i = keys.length;
-    console.log("i: ", i);
+    // console.log("i: ", i);
 
     while ( i-- ) {
         console.log("localStorage: ", localStorage.getItem(keys[i]));
@@ -134,8 +134,8 @@ tbody.innerHTML = renderCoffees(coffees);
 
 // These are the actions attached to the DOM elements:
 
-// Event: filters coffee array by using the #submit button in index.html
-filterButton.addEventListener('click', updateCoffees);
+// Event: No action done with #submit0 button in index.html
+// filterButton.addEventListener('click', updateCoffees);
 
 // Event: filters coffee array by using the #roast-selection options in updatedCoffees function
 roastSelection.addEventListener('change',updateCoffees );
