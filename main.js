@@ -29,8 +29,8 @@ function updateCoffees(e) {
     e.preventDefault(); // don't submit the form, we just want to update the data
     const selectedRoast = roastSelection.value;
 
-    // Set filteredCoffees to coffees array when selected roast is set to 'all'
-    let filteredCoffees = coffees;
+    // Reset filteredCoffees to coffees array to be re-filtered to roast and/or coffee name
+    filteredCoffees = coffees;
 
     // Set filteredCoffees variable to the coffees array which is filtered by roast type
     if (selectedRoast !== "all") {
@@ -59,7 +59,7 @@ function addNewCoffee(e) {
 
     console.log(localStorage);
 
-    // Declare empty newCoffee object to store the new coffee info (id, name, roasta)
+    // Declare empty newCoffee object to store the new coffee info (id, name, roast)
     const newCoffee = {};
 
     // Add the id property to newCoffee object by using coffees array length plus 1
@@ -82,8 +82,9 @@ function addNewCoffee(e) {
 
     // Add newly created coffee object to localStorage
     localStorage.setItem(`${newCoffee.id}`, JSON.stringify(newCoffee));
-    // Add newly created coffee object to coffees array
+    // Add newly created coffee object to coffees and filteredCoffees array then re-render
     coffees.push(newCoffee);
+    // filteredCoffees.push(newCoffee);
     tbody.innerHTML = renderCoffees(coffees);
 }
 
@@ -104,6 +105,9 @@ let coffees = [
     {id: 13, name: 'Italian', roast: 'dark'},
     {id: 14, name: 'French', roast: 'dark'},
 ];
+
+// Set filteredCoffees to coffees array (copy to be seen across update and add functions)
+let filteredCoffees = coffees;
 
 // To declare variables to access the DOM elements in index.html
 const coffeeFilter = document.getElementById("coffee-filter");
