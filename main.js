@@ -28,9 +28,9 @@ function renderCoffees(coffees) {
 function updateCoffees(e) {
     e.preventDefault(); // don't submit the form, we just want to update the data
     const selectedRoast = roastSelection.value;
-    // loadStorage();
 
-    // Reset filteredCoffees to coffees array to be re-filtered to roast and/or coffee name
+    // Reset filteredCoffees to a copy of possibly an updated coffees array
+    // to be re-filtered by roast and/or by coffee name
     filteredCoffees = coffees.slice();
 
     // Set filteredCoffees variable to the coffees array which is filtered by roast type
@@ -124,7 +124,6 @@ function loadStorage() {
     console.log("i: ", i);
 
     while ( i-- ) {
-        // console.log("localStorage: ", localStorage.getItem(keys[i]));
         coffees.push( JSON.parse( localStorage.getItem(keys[i]) ) );
     }
 }
