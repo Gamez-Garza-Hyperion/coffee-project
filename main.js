@@ -28,9 +28,10 @@ function renderCoffees(coffees) {
 function updateCoffees(e) {
     e.preventDefault(); // don't submit the form, we just want to update the data
     const selectedRoast = roastSelection.value;
+    // loadStorage();
 
     // Reset filteredCoffees to coffees array to be re-filtered to roast and/or coffee name
-    filteredCoffees = coffees;
+    filteredCoffees = coffees.slice();
 
     // Set filteredCoffees variable to the coffees array which is filtered by roast type
     if (selectedRoast !== "all") {
@@ -80,16 +81,17 @@ function addNewCoffee(e) {
     const newRoast = addRoast.value;
     newCoffee.roast = newRoast;
 
-    // Add newly created coffee object to localStorage
-    localStorage.setItem(`${newCoffee.id}`, JSON.stringify(newCoffee));
     // Add newly created coffee object to coffees and filteredCoffees array then re-render
     coffees.push(newCoffee);
-    // filteredCoffees.push(newCoffee);
-    tbody.innerHTML = renderCoffees(coffees);
+    filteredCoffees.push(newCoffee);
+
+    // Add newly created coffee object to localStorage
+    localStorage.setItem(`${newCoffee.id}`, JSON.stringify(newCoffee));
+    tbody.innerHTML = renderCoffees(filteredCoffees);
 }
 
 // From http://www.ncausa.org/About-Coffee/Coffee-Roasts-Guide
-let coffees = [
+const coffees = [
     {id: 1, name: 'Light City', roast: 'light'},
     {id: 2, name: 'Half City', roast: 'light'},
     {id: 3, name: 'Cinnamon', roast: 'light'},
@@ -106,9 +108,6 @@ let coffees = [
     {id: 14, name: 'French', roast: 'dark'},
 ];
 
-// Set filteredCoffees to coffees array (copy to be seen across update and add functions)
-let filteredCoffees = coffees;
-
 // To declare variables to access the DOM elements in index.html
 const coffeeFilter = document.getElementById("coffee-filter");
 const tbody = document.querySelector("#coffees");
@@ -122,10 +121,10 @@ const addButton = document.querySelector("#submit1");
 function loadStorage() {
     const keys = Object.keys(localStorage);
     let i = keys.length;
-    // console.log("i: ", i);
+    console.log("i: ", i);
 
     while ( i-- ) {
-        console.log("localStorage: ", localStorage.getItem(keys[i]));
+        // console.log("localStorage: ", localStorage.getItem(keys[i]));
         coffees.push( JSON.parse( localStorage.getItem(keys[i]) ) );
     }
 }
@@ -133,8 +132,11 @@ function loadStorage() {
 // Initially load items from localStorage
 loadStorage();
 
+// Set filteredCoffees to be a copy of the coffees array (copy to be seen across update and add functions)
+let filteredCoffees = coffees.slice();
+
 // Render initial coffees array
-tbody.innerHTML = renderCoffees(coffees);
+tbody.innerHTML = renderCoffees(filteredCoffees);
 
 // These are the actions attached to the DOM elements:
 
@@ -142,7 +144,7 @@ tbody.innerHTML = renderCoffees(coffees);
 // filterButton.addEventListener('click', updateCoffees);
 
 // Event: filters coffee array by using the #roast-selection options in updatedCoffees function
-roastSelection.addEventListener('change',updateCoffees );
+roastSelection.addEventListener('change',updateCoffees);
 
 // Event: filters coffees array using the user input for coffee name in updatedCoffees function
 coffeeFilter.addEventListener('input', updateCoffees);
